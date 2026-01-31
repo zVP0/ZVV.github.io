@@ -12,22 +12,21 @@
             background: #000; 
             font-family: 'Segoe UI', sans-serif; 
             color: white; 
-            overflow: hidden; 
-            perspective: 1000px; /* Necesario para el efecto 3D */
+            overflow: hidden;
+            perspective: 1000px;
         }
 
-        /* Contenedor del Fondo (para el movimiento) */
+        /* Fondo */
         #bg-container {
             position: fixed;
-            top: -5%; left: -5%;
-            width: 110%; height: 110%;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('Anm.gif') no-repeat center center/cover;
             z-index: -1;
-            transition: transform 0.1s ease-out; /* Suaviza el movimiento */
+            will-change: transform;
         }
 
-        /* Pantalla de Entrada */
         #entry-screen {
             position: fixed;
             top: 0; left: 0;
@@ -39,45 +38,34 @@
             align-items: center;
             z-index: 999;
             cursor: pointer;
-            transition: opacity 1.2s ease;
+            transition: opacity 0.8s ease;
         }
 
         .neon-main {
             font-size: 3.5rem;
             font-weight: 800;
-            color: #fff;
             text-shadow: 0 0 10px #fff, 0 0 20px #fff;
         }
 
-        /* Contenedor Principal */
         #main-site {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            filter: blur(25px);
-            transition: filter 1.5s ease;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
 
-        /* Marco Neón con efecto 3D */
         .neon-card {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             width: 400px;
             border: 1.5px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
-            transition: transform 0.1s ease-out; /* Suaviza el movimiento */
-        }
-
-        .neon-name {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-            margin-bottom: 25px;
+            will-change: transform;
         }
 
         .avatar {
@@ -88,27 +76,19 @@
             overflow: hidden;
         }
 
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
         .social-icons a {
             color: #fff;
             font-size: 2rem;
+            margin: 0 15px;
             text-decoration: none;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: 0.3s;
         }
 
-        .social-icons a:hover {
-            opacity: 1;
-            text-shadow: 0 0 10px #fff;
-        }
+        .social-icons a:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
 
-        .fade-out { opacity: 0; pointer-events: none; }
-        .unblur { filter: blur(0) !important; }
+        .fade-out { opacity: 0 !important; pointer-events: none; }
+        .show-site { opacity: 1 !important; }
     </style>
 </head>
 <body>
@@ -129,8 +109,7 @@
             <div class="avatar">
                 <img src="perfil.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
-            <h2 class="neon-name">monster</h2>
-            
+            <h2 style="margin-bottom: 20px; text-shadow: 0 0 5px #fff;">monster</h2>
             <div class="social-icons">
                 <a href="https://t.me/TU_USUARIO" target="_blank"><i class="fa-brands fa-telegram"></i></a>
                 <a href="LINK_DISCORD" target="_blank"><i class="fa-brands fa-discord"></i></a>
@@ -141,30 +120,37 @@
     <script>
         const card = document.getElementById('card');
         const bg = document.getElementById('bg-container');
-
-        // Función para mover todo con el mouse
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-
-            // Mueve el fondo ligeramente
-            const moveX = (x - 0.5) * 30; // 30px de rango
-            const moveY = (y - 0.5) * 30;
-            bg.style.transform = `translate(${moveX}px, ${moveY}px)`;
-
-            // Rota la card ligeramente para efecto 3D
-            const rotateX = (y - 0.5) * -10; // 10 grados de rotación
-            const rotateY = (x - 0.5) * 10;
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
+        let canMove = false;
 
         function start() {
             document.getElementById('entry-screen').classList.add('fade-out');
-            document.getElementById('main-site').classList.add('unblur');
-            var audio = document.getElementById("bg-music");
+            document.getElementById('main-site').classList.add('show-site');
+            
+            const audio = document.getElementById("bg-music");
             audio.volume = 0.4;
             audio.play();
+            
+            // Habilitamos el movimiento después de entrar
+            canMove = true;
         }
+
+        document.addEventListener('mousemove', (e) => {
+            if (!canMove) return;
+
+            const { clientX, clientY } = e;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            // Calculamos posición relativa al centro (-1 a 1)
+            const posX = (clientX - centerX) / centerX;
+            const posY = (clientY - centerY) / centerY;
+
+            // Movimiento del fondo (opuesto al mouse para profundidad)
+            bg.style.transform = `translate(${posX * -20}px, ${posY * -20}px)`;
+
+            // Inclinación de la card
+            card.style.transform = `rotateY(${posX * 15}deg) rotateX(${posY * -15}deg)`;
+        });
     </script>
 </body>
 </html>
