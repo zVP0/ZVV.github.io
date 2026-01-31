@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zzxxfaz.club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
@@ -42,57 +43,63 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* RECUERDA SUBIR TU GIF A GITHUB Y PONER EL NOMBRE AQUÍ */
+            /* REEMPLAZA EL LINK POR TU GIF */
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('TU_GIF_AQUI.gif') no-repeat center center/cover;
             filter: blur(25px);
             transition: filter 1.5s ease;
         }
 
-        /* Marco con neón BAJITO */
+        /* Marco Neón Bajito */
         .neon-card {
             background: rgba(0, 0, 0, 0.8);
             padding: 40px;
             border-radius: 20px;
             text-align: center;
-            width: 450px;
-            border: 1.5px solid rgba(255, 255, 255, 0.6); /* Borde más suave */
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Resplandor bajito */
+            width: 400px;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); 
             backdrop-filter: blur(10px);
         }
 
-        /* Nombre con neón BAJITO */
         .neon-name {
             font-size: 1.6rem;
             font-weight: 600;
             color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Resplandor bajito */
-            margin-bottom: 20px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            margin-bottom: 25px;
         }
 
         .avatar {
             width: 90px; height: 90px;
             border-radius: 50%;
             margin: 0 auto 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             overflow: hidden;
         }
 
-        .links a {
-            display: inline-block;
-            margin: 0 15px;
+        /* Estilo de los Iconos */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-icons a {
             color: #fff;
+            font-size: 2rem;
             text-decoration: none;
-            font-size: 1.1rem;
             opacity: 0.7;
             transition: 0.3s;
         }
 
-        .links a:hover { 
-            opacity: 1; 
-            text-shadow: 0 0 5px #fff; 
+        .social-icons a:hover {
+            opacity: 1;
+            text-shadow: 0 0 10px #fff;
+            transform: translateY(-3px);
         }
 
+        /* Helpers */
         .fade-out { opacity: 0; pointer-events: none; }
         .unblur { filter: blur(0) !important; }
     </style>
@@ -111,25 +118,28 @@
     <main id="main-site">
         <div class="neon-card">
             <div class="avatar">
-                <img src="TU_PFP.jpg" style="width:100%; height:100%; object-fit:cover;">
+                <img src="TU_FOTO.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <h2 class="neon-name">@tu_nombre</h2>
-            <div class="links">
-                <a href="https://t.me/TU_USUARIO">telegram</a>
-                <a href="LINK_DISCORD">discord</a>
+            
+            <div class="social-icons">
+                <a href="https://t.me/TU_USUARIO" target="_blank">
+                    <i class="fa-brands fa-telegram"></i>
+                </a>
+                <a href="LINK_DISCORD" target="_blank">
+                    <i class="fa-brands fa-discord"></i>
+                </a>
             </div>
         </div>
     </main>
 
     <script>
         function start() {
-            // Quita la pantalla negra y el blur
             document.getElementById('entry-screen').classList.add('fade-out');
             document.getElementById('main-site').classList.add('unblur');
             
-            // Inicia la música
             var audio = document.getElementById("bg-music");
-            audio.volume = 0.4; // Volumen bajito
+            audio.volume = 0.4;
             audio.play();
         }
     </script>
