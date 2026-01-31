@@ -42,30 +42,31 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* CAMBIA 'tu-archivo.gif' POR EL LINK DE TU GIF */
+            /* RECUERDA SUBIR TU GIF A GITHUB Y PONER EL NOMBRE AQUÍ */
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('AQUI_PEGA_EL_LINK_DE_TU_GIF.gif') no-repeat center center/cover;
+                        url('TU_GIF_AQUI.gif') no-repeat center center/cover;
             filter: blur(25px);
             transition: filter 1.5s ease;
         }
 
-        /* Marco con neón bajito */
+        /* Marco con neón BAJITO */
         .neon-card {
             background: rgba(0, 0, 0, 0.8);
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             width: 450px;
-            border: 1.5px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4); 
+            border: 1.5px solid rgba(255, 255, 255, 0.6); /* Borde más suave */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); /* Resplandor bajito */
             backdrop-filter: blur(10px);
         }
 
+        /* Nombre con neón BAJITO */
         .neon-name {
             font-size: 1.6rem;
             font-weight: 600;
             color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Resplandor bajito */
             margin-bottom: 20px;
         }
 
@@ -79,14 +80,18 @@
 
         .links a {
             display: inline-block;
-            margin: 0 10px;
+            margin: 0 15px;
             color: #fff;
             text-decoration: none;
+            font-size: 1.1rem;
             opacity: 0.7;
             transition: 0.3s;
         }
 
-        .links a:hover { opacity: 1; text-shadow: 0 0 5px #fff; }
+        .links a:hover { 
+            opacity: 1; 
+            text-shadow: 0 0 5px #fff; 
+        }
 
         .fade-out { opacity: 0; pointer-events: none; }
         .unblur { filter: blur(0) !important; }
@@ -95,7 +100,7 @@
 <body>
 
     <audio id="bg-music" loop>
-        <source src="AQUI_PEGA_EL_LINK_DE_TU_MUSICA.mp3" type="audio/mpeg">
+        <source src="TU_MUSICA.mp3" type="audio/mpeg">
     </audio>
 
     <div id="entry-screen" onclick="start()">
@@ -106,27 +111,25 @@
     <main id="main-site">
         <div class="neon-card">
             <div class="avatar">
-                <img src="TU_FOTO_DE_PERFIL.jpg" style="width:100%; height:100%; object-fit:cover;">
+                <img src="TU_PFP.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
             <h2 class="neon-name">@tu_nombre</h2>
             <div class="links">
-                <a href="LINK_GITHUB">github</a>
+                <a href="https://t.me/TU_USUARIO">telegram</a>
                 <a href="LINK_DISCORD">discord</a>
-                <a href="LINK_INSTA">instagram</a>
             </div>
         </div>
     </main>
 
     <script>
         function start() {
-            // Quita la pantalla negra
-            document.getElementById('overlay') || document.getElementById('entry-screen').classList.add('fade-out');
-            // Quita el desenfoque
+            // Quita la pantalla negra y el blur
+            document.getElementById('entry-screen').classList.add('fade-out');
             document.getElementById('main-site').classList.add('unblur');
             
-            // REPRODUCE LA MÚSICA
+            // Inicia la música
             var audio = document.getElementById("bg-music");
-            audio.volume = 0.5; // Ajusta el volumen (0.0 a 1.0)
+            audio.volume = 0.4; // Volumen bajito
             audio.play();
         }
     </script>
