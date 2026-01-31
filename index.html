@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zzxxfaz.club</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
@@ -34,7 +35,6 @@
             font-size: 3.5rem;
             font-weight: 800;
             color: #fff;
-            /* Neón fuerte para la entrada */
             text-shadow: 0 0 10px #fff, 0 0 20px #fff;
         }
 
@@ -45,7 +45,6 @@
             border-radius: 20px;
             text-align: center;
             width: 450px;
-            /* Borde más fino y glow reducido */
             border: 1.3px solid rgba(255, 255, 255, 0.76);
             box-shadow: 0 0 5px rgba(250, 248, 248, 0.479); 
             backdrop-filter: blur(10px);
@@ -56,7 +55,6 @@
             font-size: 1.6rem;
             font-weight: 600;
             color: #fff;
-            /* Un solo nivel de sombra para que sea sutil */
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.788);
             margin-bottom: 20px;
         }
@@ -68,17 +66,22 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
+        /* Ajuste para que los iconos se vean bien */
         .links a {
             display: inline-block;
-            margin: 0 10px;
+            margin: 0 15px;
             color: #fff;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 2rem; /* Tamaño del icono */
             opacity: 0.7;
             transition: 0.3s;
         }
 
-        .links a:hover { opacity: 1; text-shadow: 0 0 5px #fff; }
+        .links a:hover { 
+            opacity: 1; 
+            text-shadow: 0 0 10px #fff;
+            transform: translateY(-3px);
+        }
 
         /* Pantallas */
         #main-site {
@@ -109,9 +112,9 @@
             </div>
             <h2 class="neon-name">@tu_nombre</h2>
             <div class="links">
-                <a href="#">github</a>
-                <a href="#">discord</a>
-                <a href="#">instagram</a>
+                <a href="#" target="_blank"><i class='bx bxl-github'></i></a>
+                <a href="#" target="_blank"><i class='bx bxl-discord-alt'></i></a>
+                <a href="#" target="_blank"><i class='bx bxl-instagram'></i></a>
             </div>
         </div>
     </main>
