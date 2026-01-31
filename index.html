@@ -7,21 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body, html { 
             height: 100%; 
             background: #000; 
             font-family: 'Segoe UI', sans-serif; 
             color: white; 
             overflow: hidden;
+            /* Esto permite que la card rote en 3D */
             perspective: 1000px;
         }
 
-        /* Fondo */
+        /* Contenedor del fondo con margen extra para que no se vean bordes al moverlo */
         #bg-container {
             position: fixed;
-            top: -10%; left: -10%;
-            width: 120%; height: 120%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                         url('Anm.gif') no-repeat center center/cover;
             z-index: -1;
             will-change: transform;
@@ -36,7 +40,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 999;
+            z-index: 1000;
             cursor: pointer;
             transition: opacity 0.8s ease;
         }
@@ -62,30 +66,32 @@
             border-radius: 20px;
             text-align: center;
             width: 400px;
-            border: 1.5px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            /* Transform-style para que los hijos hereden el 3D */
+            transform-style: preserve-3d;
             will-change: transform;
         }
 
         .avatar {
-            width: 90px; height: 90px;
+            width: 100px; height: 100px;
             border-radius: 50%;
             margin: 0 auto 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             overflow: hidden;
         }
 
         .social-icons a {
             color: #fff;
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin: 0 15px;
             text-decoration: none;
-            opacity: 0.8;
+            opacity: 0.7;
             transition: 0.3s;
         }
 
-        .social-icons a:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
+        .social-icons a:hover { opacity: 1; text-shadow: 0 0 15px #fff; }
 
         .fade-out { opacity: 0 !important; pointer-events: none; }
         .show-site { opacity: 1 !important; }
@@ -109,7 +115,7 @@
             <div class="avatar">
                 <img src="perfil.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
-            <h2 style="margin-bottom: 20px; text-shadow: 0 0 5px #fff;">monster</h2>
+            <h2 style="margin-bottom: 25px; letter-spacing: 1px; text-shadow: 0 0 5px #fff;">monster</h2>
             <div class="social-icons">
                 <a href="https://t.me/TU_USUARIO" target="_blank"><i class="fa-brands fa-telegram"></i></a>
                 <a href="LINK_DISCORD" target="_blank"><i class="fa-brands fa-discord"></i></a>
@@ -120,37 +126,44 @@
     <script>
         const card = document.getElementById('card');
         const bg = document.getElementById('bg-container');
-        let canMove = false;
+        let mouseX = 0, mouseY = 0;
+        let isStarted = false;
 
         function start() {
+            isStarted = true;
             document.getElementById('entry-screen').classList.add('fade-out');
             document.getElementById('main-site').classList.add('show-site');
             
             const audio = document.getElementById("bg-music");
             audio.volume = 0.4;
-            audio.play();
+            audio.play().catch(e => console.log("Error al reproducir audio"));
             
-            // Habilitamos el movimiento después de entrar
-            canMove = true;
+            // Iniciamos el ciclo de animación
+            requestAnimationFrame(updateParallax);
         }
 
-        document.addEventListener('mousemove', (e) => {
-            if (!canMove) return;
-
-            const { clientX, clientY } = e;
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-
-            // Calculamos posición relativa al centro (-1 a 1)
-            const posX = (clientX - centerX) / centerX;
-            const posY = (clientY - centerY) / centerY;
-
-            // Movimiento del fondo (opuesto al mouse para profundidad)
-            bg.style.transform = `translate(${posX * -20}px, ${posY * -20}px)`;
-
-            // Inclinación de la card
-            card.style.transform = `rotateY(${posX * 15}deg) rotateX(${posY * -15}deg)`;
+        // Capturamos el mouse en toda la ventana
+        window.addEventListener('mousemove', (e) => {
+            // Normalizamos la posición de -1 a 1
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
         });
+
+        function updateParallax() {
+            if (!isStarted) return;
+
+            // Movimiento del Fondo (suave)
+            const bgX = mouseX * -15; // Se mueve 15px
+            const bgY = mouseY * -15;
+            bg.style.transform = `translate(${bgX}px, ${bgY}px)`;
+
+            // Rotación de la Card
+            const rotateY = mouseX * 15; // 15 grados
+            const rotateX = mouseY * -15;
+            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+
+            requestAnimationFrame(updateParallax);
+        }
     </script>
 </body>
 </html>
