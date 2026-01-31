@@ -13,6 +13,18 @@
             font-family: 'Segoe UI', sans-serif; 
             color: white; 
             overflow: hidden; 
+            perspective: 1000px; /* Necesario para el efecto 3D */
+        }
+
+        /* Contenedor del Fondo (para el movimiento) */
+        #bg-container {
+            position: fixed;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('Anm.gif') no-repeat center center/cover;
+            z-index: -1;
+            transition: transform 0.1s ease-out; /* Suaviza el movimiento */
         }
 
         /* Pantalla de Entrada */
@@ -37,20 +49,17 @@
             text-shadow: 0 0 10px #fff, 0 0 20px #fff;
         }
 
-        /* Contenido Principal con TU GIF CONFIGURADO */
+        /* Contenedor Principal */
         #main-site {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Se ha configurado Anm.gif como fondo */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('Anm.gif') no-repeat center center/cover;
             filter: blur(25px);
             transition: filter 1.5s ease;
         }
 
-        /* Marco Neón Bajito */
+        /* Marco Neón con efecto 3D */
         .neon-card {
             background: rgba(0, 0, 0, 0.8);
             padding: 40px;
@@ -60,6 +69,7 @@
             border: 1.5px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); 
             backdrop-filter: blur(10px);
+            transition: transform 0.1s ease-out; /* Suaviza el movimiento */
         }
 
         .neon-name {
@@ -78,7 +88,6 @@
             overflow: hidden;
         }
 
-        /* Estilo de los Iconos */
         .social-icons {
             display: flex;
             justify-content: center;
@@ -96,15 +105,15 @@
         .social-icons a:hover {
             opacity: 1;
             text-shadow: 0 0 10px #fff;
-            transform: translateY(-3px);
         }
 
-        /* Helpers */
         .fade-out { opacity: 0; pointer-events: none; }
         .unblur { filter: blur(0) !important; }
     </style>
 </head>
 <body>
+
+    <div id="bg-container"></div>
 
     <audio id="bg-music" loop>
         <source src="nothingzz.mp3" type="audio/mpeg">
@@ -116,28 +125,42 @@
     </div>
 
     <main id="main-site">
-        <div class="neon-card">
+        <div class="neon-card" id="card">
             <div class="avatar">
                 <img src="perfil.jpg" style="width:100%; height:100%; object-fit:cover;">
             </div>
-            <h2 class="neon-name">zVV</h2>
+            <h2 class="neon-name">monster</h2>
             
             <div class="social-icons">
-                <a href="https://t.me/TU_USUARIO" target="_blank">
-                    <i class="fa-brands fa-telegram"></i>
-                </a>
-                <a href="LINK_DISCORD" target="_blank">
-                    <i class="fa-brands fa-discord"></i>
-                </a>
+                <a href="https://t.me/TU_USUARIO" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                <a href="LINK_DISCORD" target="_blank"><i class="fa-brands fa-discord"></i></a>
             </div>
         </div>
     </main>
 
     <script>
+        const card = document.getElementById('card');
+        const bg = document.getElementById('bg-container');
+
+        // Función para mover todo con el mouse
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            // Mueve el fondo ligeramente
+            const moveX = (x - 0.5) * 30; // 30px de rango
+            const moveY = (y - 0.5) * 30;
+            bg.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+            // Rota la card ligeramente para efecto 3D
+            const rotateX = (y - 0.5) * -10; // 10 grados de rotación
+            const rotateY = (x - 0.5) * 10;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
         function start() {
             document.getElementById('entry-screen').classList.add('fade-out');
             document.getElementById('main-site').classList.add('unblur');
-            
             var audio = document.getElementById("bg-music");
             audio.volume = 0.4;
             audio.play();
