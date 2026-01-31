@@ -138,13 +138,22 @@
             audio.volume = 0.4;
             audio.play().catch(e => console.log("Error al reproducir audio"));
             
+            // Creamos un estado en el historial para que el botón "Atrás" funcione
+            window.history.pushState({view: 'main'}, "");
+            
             // Iniciamos el ciclo de animación
             requestAnimationFrame(updateParallax);
         }
 
+        // Si el usuario le da al botón "Atrás", recargamos para volver al inicio
+        window.onpopstate = function(event) {
+            if (isStarted) {
+                window.location.reload();
+            }
+        };
+
         // Capturamos el mouse en toda la ventana
         window.addEventListener('mousemove', (e) => {
-            // Normalizamos la posición de -1 a 1
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = (e.clientY / window.innerHeight) * 2 - 1;
         });
@@ -152,13 +161,11 @@
         function updateParallax() {
             if (!isStarted) return;
 
-            // Movimiento del Fondo (suave)
-            const bgX = mouseX * -15; // Se mueve 15px
+            const bgX = mouseX * -15; 
             const bgY = mouseY * -15;
             bg.style.transform = `translate(${bgX}px, ${bgY}px)`;
 
-            // Rotación de la Card
-            const rotateY = mouseX * 15; // 15 grados
+            const rotateY = mouseX * 15; 
             const rotateX = mouseY * -15;
             card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
 
