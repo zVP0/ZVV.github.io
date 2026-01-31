@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zzxxfaz.club</title>
     <style>
-        /* Reset y Base Oscura */
+        /* Estilos Base */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
             height: 100%; 
-            background-color: #000; 
-            font-family: 'Inter', -apple-system, sans-serif; 
+            background: #000; 
+            font-family: 'Segoe UI', sans-serif; 
             color: white; 
             overflow: hidden; 
         }
 
-        /* Pantalla de Entrada (Negra total como tus imágenes) */
+        /* Pantalla de Entrada */
         #entry-screen {
             position: fixed;
             top: 0; left: 0;
@@ -27,114 +27,103 @@
             align-items: center;
             z-index: 999;
             cursor: pointer;
-            transition: opacity 1.2s ease, visibility 1.2s;
+            transition: opacity 1s ease;
         }
 
-        #entry-screen h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
+        /* Efecto Neón en el Texto */
+        .neon-text {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: lowercase;
+            /* Resplandor blanco neón */
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
             letter-spacing: 2px;
-            /* Efecto de brillo sutil de tus capturas */
-            text-shadow: 0 0 15px rgba(255,255,255,0.6);
-            margin-bottom: 10px;
         }
 
-        .click-hint {
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            opacity: 0.4;
-            text-transform: uppercase;
+        .hint {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
         }
 
-        /* Contenido Principal (Lo que sale después) */
-        #main-site {
-            position: relative;
+        /* Contenido Principal con Desenfoque */
+        #main-content {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Aquí pon tu imagen de fondo */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                        url('https://images.alphacoders.com/132/1327116.png') no-repeat center center/cover;
-            filter: blur(30px); /* Desenfoque inicial fuerte */
-            transition: filter 2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: url('TU_IMAGEN_DE_FONDO.jpg') no-repeat center center/cover;
+            filter: blur(25px); /* Borroso al inicio */
+            transition: filter 1.5s ease;
         }
 
-        /* Card de Redes Sociales */
-        .profile-card {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 3rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
+        /* Marco con Borde Neón Blanco */
+        .neon-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
             text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            width: 450px; /* Tamaño similar a tu imagen */
+            
+            /* Borde Neón Blanco */
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px #fff, inset 0 0 10px #fff; 
+            backdrop-filter: blur(10px);
         }
 
         .avatar {
-            width: 90px; height: 90px;
+            width: 80px; height: 80px;
             border-radius: 50%;
             margin: 0 auto 20px;
-            border: 2px solid rgba(255,255,255,0.1);
-            overflow: hidden;
+            border: 1px solid #fff;
+            box-shadow: 0 0 5px #fff;
         }
-
-        .username { font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; }
-        .bio { font-size: 0.9rem; opacity: 0.5; margin-bottom: 25px; }
 
         .links a {
             display: inline-block;
-            margin: 0 15px;
+            margin: 15px 10px 0;
             color: #fff;
             text-decoration: none;
-            font-size: 1.4rem;
-            opacity: 0.7;
+            font-weight: bold;
+            text-shadow: 0 0 5px #fff; /* Neón en enlaces */
             transition: 0.3s;
         }
 
-        .links a:hover { opacity: 1; transform: translateY(-3px); }
+        .links a:hover { transform: scale(1.1); }
 
-        /* Clases de Activación */
-        .hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .remove-blur { filter: blur(0) !important; }
+        /* Clases para JS */
+        .hide { opacity: 0; pointer-events: none; }
+        .reveal { filter: blur(0) !important; }
     </style>
 </head>
 <body>
 
-    <div id="entry-screen" onclick="startApp()">
-        <h1>zzxxfaz.club</h1>
-        <p class="click-hint">[ CLICK TO ENTER ]</p>
+    <div id="entry-screen" onclick="entrar()">
+        <h1 class="neon-text">zzxxfaz.club</h1>
+        <p class="hint">[ click to enter ]</p>
     </div>
 
-    <main id="main-site">
-        <div class="profile-card">
+    <main id="main-content">
+        <div class="neon-card">
             <div class="avatar">
-                <img src="https://via.placeholder.com/90" alt="pfp" style="width:100%; height:100%; object-fit:cover;">
+                <img src="https://via.placeholder.com/80" style="width:100%; border-radius:50%">
             </div>
-            <h2 class="username">@tu_nombre</h2>
-            <p class="bio">Digital Artist & Dev</p>
-            
+            <h2 class="neon-text" style="font-size: 1.5rem;">@tu_user</h2>
             <div class="links">
-                <a href="#" title="GitHub">github</a>
-                <a href="#" title="Discord">discord</a>
-                <a href="#" title="Instagram">insta</a>
+                <a href="#">github</a>
+                <a href="#">discord</a>
+                <a href="#">instagram</a>
             </div>
         </div>
     </main>
 
     <script>
-        function startApp() {
-            // Quita la pantalla negra
-            document.getElementById('entry-screen').classList.add('hidden');
-            // Quita el desenfoque del fondo
-            document.getElementById('main-site').classList.add('remove-blur');
-            
-            // Si quieres música, descomenta estas líneas:
-            // var audio = new Audio('tu-musica.mp3');
-            // audio.volume = 0.5;
-            // audio.play();
+        function entrar() {
+            // Desvanece la entrada
+            document.getElementById('entry-screen').classList.add('hide');
+            // Quita el blur del fondo y la card
+            document.getElementById('main-content').classList.add('reveal');
         }
     </script>
 </body>
