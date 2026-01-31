@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zzxxfaz.club</title>
     <style>
-        /* Estilos Base */
+        /* Base y Fondo Negro */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html { 
             height: 100%; 
             background: #000; 
-            font-family: 'Segoe UI', sans-serif; 
+            font-family: 'Inter', sans-serif; 
             color: white; 
             overflow: hidden; 
         }
 
-        /* Pantalla de Entrada */
-        #entry-screen {
+        /* Pantalla de Entrada (Negro total) */
+        #overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
@@ -25,91 +25,89 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 999;
+            z-index: 100;
             cursor: pointer;
             transition: opacity 1s ease;
         }
 
-        /* Efecto Neón en el Texto */
+        /* Texto Neón zzxxfaz.club */
         .neon-text {
             font-size: 3rem;
             font-weight: bold;
-            text-transform: lowercase;
-            /* Resplandor blanco neón */
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #fff;
-            letter-spacing: 2px;
+            color: #fff;
+            /* El efecto Glow Neón en letras */
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 40px #fff;
+            margin-bottom: 10px;
         }
 
-        .hint {
-            margin-top: 10px;
+        .click-text {
             font-size: 0.8rem;
-            opacity: 0.5;
-            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+            letter-spacing: 2px;
+            opacity: 0.6;
         }
 
-        /* Contenido Principal con Desenfoque */
-        #main-content {
+        /* Contenido Principal con desenfoque */
+        #main-site {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('TU_IMAGEN_DE_FONDO.jpg') no-repeat center center/cover;
-            filter: blur(25px); /* Borroso al inicio */
+            filter: blur(25px); /* Inicia borroso */
             transition: filter 1.5s ease;
+            background: #0a0a0a; /* Opcional: pon tu imagen de fondo aquí */
         }
 
-        /* Marco con Borde Neón Blanco */
+        /* El Marco Neón (Card) */
         .neon-card {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 50px;
             text-align: center;
-            width: 450px; /* Tamaño similar a tu imagen */
+            width: 450px;
+            border-radius: 20px;
             
-            /* Borde Neón Blanco */
-            border: 2px solid #fff;
-            box-shadow: 0 0 10px #fff, inset 0 0 10px #fff; 
+            /* BORDE NEÓN BLANCO */
+            border: 3px solid #fff;
+            box-shadow: 0 0 15px #fff, inset 0 0 15px #fff; /* Brillo afuera y adentro */
             backdrop-filter: blur(10px);
         }
 
         .avatar {
-            width: 80px; height: 80px;
+            width: 90px; height: 90px;
             border-radius: 50%;
             margin: 0 auto 20px;
-            border: 1px solid #fff;
-            box-shadow: 0 0 5px #fff;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px #fff;
         }
 
         .links a {
             display: inline-block;
-            margin: 15px 10px 0;
+            margin: 15px 10px;
             color: #fff;
             text-decoration: none;
             font-weight: bold;
-            text-shadow: 0 0 5px #fff; /* Neón en enlaces */
+            /* Efecto Glow en los links */
+            text-shadow: 0 0 8px #fff;
             transition: 0.3s;
         }
 
-        .links a:hover { transform: scale(1.1); }
-
-        /* Clases para JS */
-        .hide { opacity: 0; pointer-events: none; }
-        .reveal { filter: blur(0) !important; }
+        /* Control de Visibilidad con JS */
+        .hidden { opacity: 0; pointer-events: none; }
+        .unblur { filter: blur(0) !important; }
     </style>
 </head>
 <body>
 
-    <div id="entry-screen" onclick="entrar()">
+    <div id="overlay" onclick="enter()">
         <h1 class="neon-text">zzxxfaz.club</h1>
-        <p class="hint">[ click to enter ]</p>
+        <p class="click-text">[ click to enter ]</p>
     </div>
 
-    <main id="main-content">
+    <main id="main-site">
         <div class="neon-card">
             <div class="avatar">
-                <img src="https://via.placeholder.com/80" style="width:100%; border-radius:50%">
+                <img src="https://via.placeholder.com/90" alt="" style="width:100%; border-radius:50%;">
             </div>
-            <h2 class="neon-text" style="font-size: 1.5rem;">@tu_user</h2>
+            <h2 class="neon-text" style="font-size: 1.8rem;">@tu_user</h2>
             <div class="links">
                 <a href="#">github</a>
                 <a href="#">discord</a>
@@ -119,11 +117,11 @@
     </main>
 
     <script>
-        function entrar() {
-            // Desvanece la entrada
-            document.getElementById('entry-screen').classList.add('hide');
-            // Quita el blur del fondo y la card
-            document.getElementById('main-content').classList.add('reveal');
+        function enter() {
+            // Desaparece el overlay negro
+            document.getElementById('overlay').classList.add('hidden');
+            // Quita el blur de la card
+            document.getElementById('main-site').classList.add('unblur');
         }
     </script>
 </body>
