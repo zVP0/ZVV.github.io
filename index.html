@@ -3,129 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zVV</title>
+    <title>zzxxfaz.club</title>
     <style>
-        /* Estilos generales */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
-            color: white;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Reset y Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            height: 100%; 
+            background-color: #000; 
+            font-family: 'Courier New', Courier, monospace; 
+            color: white; 
+            overflow: hidden; 
         }
 
-        /* Capa de Entrada (Overlay) */
-        #overlay {
+        /* Pantalla de Entrada (Negra total) */
+        #entry-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 999;
             cursor: pointer;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 1s ease;
         }
 
-        #overlay h1 {
-            font-size: 3rem;
-            letter-spacing: 10px;
-            margin-bottom: 20px;
+        #entry-screen h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
         }
 
-        .click-text {
-            font-size: 0.9rem;
-            opacity: 0.6;
-            text-transform: uppercase;
+        .click-hint {
+            margin-top: 15px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            opacity: 0.5;
         }
 
-        /* Contenido Principal (Borroso al inicio) */
-        #main-content {
-            text-align: center;
-            filter: blur(20px); /* Empieza borroso */
+        /* Contenido Principal (Con la imagen de fondo) */
+        #main-site {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('tu-fondo.jpg') no-repeat center center/cover;
+            filter: blur(20px); /* Inicia borroso */
             transition: filter 1.5s ease;
-            z-index: 1;
         }
 
-        /* Estilo de la Card */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 40px;
-            border-radius: 15px;
+        /* Card de Redes Sociales */
+        .profile-card {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 2.5rem;
+            border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
+            text-align: center;
+            width: 350px;
         }
 
-        .profile-img {
-            width: 100px;
-            height: 100px;
+        .avatar {
+            width: 80px; height: 80px;
             border-radius: 50%;
-            background: #333;
-            margin-bottom: 15px;
+            background: #222;
+            margin: 0 auto 15px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .social-links a {
-            color: white;
-            text-decoration: none;
+        .username { font-size: 1.2rem; margin-bottom: 5px; }
+        .bio { font-size: 0.8rem; opacity: 0.6; margin-bottom: 20px; }
+
+        .links a {
+            display: inline-block;
             margin: 0 10px;
-            font-size: 1.5rem;
-            opacity: 0.8;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
         }
 
-        .social-links a:hover { opacity: 1; }
+        .links a:hover { transform: scale(1.2); }
 
-        /* Clases para la animación con JS */
-        .hidden {
-            opacity: 0 !important;
-            visibility: hidden !important;
-        }
-
-        .unblur {
-            filter: blur(0) !important;
-        }
+        /* Helpers de JS */
+        .fade-out { opacity: 0; pointer-events: none; }
+        .remove-blur { filter: blur(0) !important; }
     </style>
 </head>
 <body>
 
-    <div id="overlay" onclick="enterSite()">
-        <h1>zVV</h1>
-        <p class="click-text">[ click to enter ]</p>
+    <div id="entry-screen" onclick="startApp()">
+        <h1>zzxxfaz.club</h1>
+        <p class="click-hint">[ CLICK TO ENTER ]</p>
     </div>
 
-    <div id="main-content">
-        <div class="card">
-            <div class="profile-img">
-                <img src="tu-foto.jpg" alt="" style="width:100%; border-radius:50%;">
+    <main id="main-site">
+        <div class="profile-card">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/80" alt="" style="width:100%; border-radius:50%">
             </div>
-            <h2>@tu_usuario</h2>
-            <p>Developer / Designer</p>
-            <div class="social-links">
-                <a href="https://github.com/tu-user">GitHub</a>
-                <a href="https://discord.com/invite/tu-server">Discord</a>
-                <a href="mailto:tu@correo.com">Email</a>
+            <h2 class="username">tu_nombre</h2>
+            <p class="bio">digital creator</p>
+            
+            <div class="links">
+                <a href="https://github.com/tu_user" title="GitHub">GH</a>
+                <a href="https://discord.com" title="Discord">DC</a>
+                <a href="https://instagram.com" title="Instagram">IG</a>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        function enterSite() {
-            // Oculta el texto de entrada
-            document.getElementById('overlay').classList.add('hidden');
-            // Quita lo borroso del contenido
-            document.getElementById('main-content').classList.add('unblur');
-            
-            // Opcional: Si quieres que suene música al entrar
-            // let audio = new Audio('tu-musica.mp3');
-            // audio.play();
+        function startApp() {
+            // Desaparece el texto zzxxfaz.club
+            document.getElementById('entry-screen').classList.add('fade-out');
+            // Quita el desenfoque del fondo y la card
+            document.getElementById('main-site').classList.add('remove-blur');
         }
     </script>
 </body>
