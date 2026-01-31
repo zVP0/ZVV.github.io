@@ -1,216 +1,1 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zzxxfaz.site</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body, html { 
-            height: 100%; 
-            background: #000; 
-            font-family: 'Segoe UI', sans-serif; 
-            color: white; 
-            overflow: hidden;
-            perspective: 1000px;
-        }
-
-        #bg-container {
-            position: fixed;
-            top: -5%;
-            left: -5%;
-            width: 110%;
-            height: 110%;
-            z-index: -1;
-            will-change: transform;
-            overflow: hidden;
-        }
-
-        #bg-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.4); 
-        }
-
-        #entry-screen {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            cursor: pointer;
-            transition: opacity 0.8s ease;
-        }
-
-        .neon-main {
-            font-size: 3.5rem;
-            font-weight: 800;
-            text-shadow: 0 0 10px #fff, 0 0 20px #fff;
-        }
-
-        #main-site {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 1s ease;
-        }
-
-        .neon-card {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            width: 400px;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .avatar {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            overflow: hidden;
-        }
-
-        /* Estilo para el efecto de escritura */
-        #typing-text {
-            font-size: 0.9rem;
-            min-height: 1.2rem;
-            margin-bottom: 25px;
-            color: rgba(255, 255, 255, 0.8);
-            letter-spacing: 1px;
-            font-style: italic;
-        }
-
-        .social-icons a {
-            color: #fff;
-            font-size: 2.2rem;
-            margin: 0 15px;
-            text-decoration: none;
-            opacity: 0.7;
-            transition: 0.3s;
-        }
-
-        .social-icons a:hover { opacity: 1; text-shadow: 0 0 15px #fff; }
-
-        .fade-out { opacity: 0 !important; pointer-events: none; }
-        .show-site { opacity: 1 !important; }
-    </style>
-</head>
-<body>
-
-    <div id="bg-container">
-        <video autoplay loop muted playsinline id="bg-video">
-            <source src="Anm.mp4" type="video/mp4">
-            Tu navegador no soporta videos.
-        </video>
-    </div>
-
-    <audio id="bg-music" loop>
-        <source src="nothingzz.mp3" type="audio/mpeg">
-    </audio>
-
-    <div id="entry-screen" onclick="start()">
-        <p style="opacity:0.4; margin-top:15px; letter-spacing:2px;">[ CLICK TO ENTER ]</p>
-    </div>
-
-    <main id="main-site">
-        <div class="neon-card" id="card">
-            <div class="avatar">
-                <img src="perfil.jpg" style="width:100%; height:100%; object-fit:cover;">
-            </div>
-            <h2 style="margin-bottom: 10px; letter-spacing: 1px; text-shadow: 0 0 5px #fff;">zVV</h2>
-            
-            <div id="typing-text"></div>
-
-            <div class="social-icons">
-                <a href="https://t.me/zvv69zz" target="_blank"><i class="fa-brands fa-telegram"></i></a>
-                <a href="https://discord.gg/QmTquK4G" target="_blank"><i class="fa-brands fa-discord"></i></a>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        const card = document.getElementById('card');
-        const bg = document.getElementById('bg-container');
-        const typingElement = document.getElementById('typing-text');
-        const phrase = "Post mortem tuam eris quod eras ante ortum tuum.";
-        let mouseX = 0, mouseY = 0;
-        let isStarted = false;
-
-        // Función del efecto de escritura
-        let i = 0;
-        let isDeleting = false;
-        let speed = 100;
-
-        function typeEffect() {
-            const currentText = phrase.substring(0, i);
-            typingElement.innerHTML = currentText + '<span style="border-right: 2px solid white; margin-left: 2px; animation: blink 0.7s infinite;">|</span>';
-
-            if (!isDeleting && i < phrase.length) {
-                i++;
-                speed = 100;
-            } else if (isDeleting && i > 0) {
-                i--;
-                speed = 50;
-            } else {
-                isDeleting = !isDeleting;
-                speed = isDeleting ? 2000 : 500; // Pausa al final y al principio
-            }
-            setTimeout(typeEffect, speed);
-        }
-
-        function start() {
-            isStarted = true;
-            document.getElementById('entry-screen').classList.add('fade-out');
-            document.getElementById('main-site').classList.add('show-site');
-            
-            const audio = document.getElementById("bg-music");
-            audio.volume = 0.4;
-            audio.play().catch(e => console.log("Error al reproducir audio"));
-            
-            window.history.pushState({view: 'main'}, "");
-            typeEffect(); // Iniciamos el efecto al entrar
-            requestAnimationFrame(updateParallax);
-        }
-
-        window.onpopstate = function(event) {
-            if (isStarted) {
-                window.location.reload();
-            }
-        };
-
-        window.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-        });
-
-        function updateParallax() {
-            if (!isStarted) return;
-            const bgX = mouseX * -15; 
-            const bgY = mouseY * -15;
-            bg.style.transform = `translate(${bgX}px, ${bgY}px)`;
-            const rotateY = mouseX * 15; 
-            const rotateX = mouseY * -15;
-            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-            requestAnimationFrame(updateParallax);
-        }
-    </script>
-    <style>
-        @keyframes blink { 50% { opacity: 0; } }
-    </style>
-</body>
-</html>
+<script>var s="=\"EPDUZQF!iunm?=iunm!mboh>#ft#?=ifbe?!!!!=nfub!dibstfu>#VUG.9#?!!!!=nfub!obnf>#wjfxqpsu#!dpoufou>#xjeui>efwjdf.xjeui-!jojujbm.tdbmf>2/1#?!!!!=ujumf?{{yygb{/tjuf=0ujumf?!!!!=mjol!sfm>#jdpo#!isfg>#ebub;-#?!!!!!=mjol!sfm>#tuzmftiffu#!isfg>#iuuqt;00deokt/dmpvegmbsf/dpn0bkby0mjct0gpou.bxftpnf07/1/10dtt0bmm/njo/dtt#?!!!!=tuzmf?!!!!!!!!+!|!nbshjo;!1<!qbeejoh;!1<!cpy.tj{joh;!cpsefs.cpy<!~!!!!!!!!!!!!!!!!cpez-!iunm!|!!!!!!!!!!!!!ifjhiu;!211&<!!!!!!!!!!!!!cbdlhspvoe;!$111<!!!!!!!!!!!!!gpou.gbnjmz;!(Tfhpf!VJ(-!tbot.tfsjg<!!!!!!!!!!!!!dpmps;!xijuf<!!!!!!!!!!!!!pwfsgmpx;!ijeefo<!!!!!!!!!!!!qfstqfdujwf;!2111qy<!!!!!!!!~!!!!!!!!$ch.dpoubjofs!|!!!!!!!!!!!!qptjujpo;!gjyfe<!!!!!!!!!!!!upq;!.6&<!!!!!!!!!!!!mfgu;!.6&<!!!!!!!!!!!!xjeui;!221&<!!!!!!!!!!!!ifjhiu;!221&<!!!!!!!!!!!!{.joefy;!.2<!!!!!!!!!!!!xjmm.dibohf;!usbotgpsn<!!!!!!!!!!!!pwfsgmpx;!ijeefo<!!!!!!!!~!!!!!!!!$ch.wjefp!|!!!!!!!!!!!!xjeui;!211&<!!!!!!!!!!!!ifjhiu;!211&<!!!!!!!!!!!!pckfdu.gju;!dpwfs<!!!!!!!!!!!!gjmufs;!csjhiuoftt)1/5*<!!!!!!!!!~!!!!!!!!$fousz.tdsffo!|!!!!!!!!!!!!qptjujpo;!gjyfe<!!!!!!!!!!!!upq;!1<!mfgu;!1<!!!!!!!!!!!!xjeui;!211&<!ifjhiu;!211&<!!!!!!!!!!!!cbdlhspvoe;!$111<!!!!!!!!!!!!ejtqmbz;!gmfy<!!!!!!!!!!!!gmfy.ejsfdujpo;!dpmvno<!!!!!!!!!!!!kvtujgz.dpoufou;!dfoufs<!!!!!!!!!!!!bmjho.jufnt;!dfoufs<!!!!!!!!!!!!{.joefy;!2111<!!!!!!!!!!!!dvstps;!qpjoufs<!!!!!!!!!!!!usbotjujpo;!pqbdjuz!1/9t!fbtf<!!!!!!!!~!!!!!!!!$nbjo.tjuf!|!!!!!!!!!!!!ifjhiu;!211wi<!!!!!!!!!!!!ejtqmbz;!gmfy<!!!!!!!!!!!!kvtujgz.dpoufou;!dfoufs<!!!!!!!!!!!!bmjho.jufnt;!dfoufs<!!!!!!!!!!!!pqbdjuz;!1<!!!!!!!!!!!!usbotjujpo;!pqbdjuz!2t!fbtf<!!!!!!!!~!!!!!!!!/ofpo.dbse!|!!!!!!!!!!!!cbdlhspvoe;!shcb)1-!1-!1-!1/8*<!!!!!!!!!!!!qbeejoh;!51qy<!!!!!!!!!!!!cpsefs.sbejvt;!31qy<!!!!!!!!!!!!ufyu.bmjho;!dfoufs<!!!!!!!!!!!!xjeui;!511qy<!!!!!!!!!!!!cpsefs;!2/6qy!tpmje!shcb)366-!366-!366-!1/5*<!!!!!!!!!!!!cpy.tibepx;!1!1!31qy!shcb)366-!366-!366-!1/2*<!!!!!!!!!!!!cbdlespq.gjmufs;!cmvs)21qy*<!!!!!!!!!!!!usbotgpsn.tuzmf;!qsftfswf.4e<!!!!!!!!!!!!xjmm.dibohf;!usbotgpsn<!!!!!!!!~!!!!!!!!/bwbubs!|!!!!!!!!!!!!xjeui;!211qy<!ifjhiu;!211qy<!!!!!!!!!!!!cpsefs.sbejvt;!61&<!!!!!!!!!!!!nbshjo;!1!bvup!31qy<!!!!!!!!!!!!cpsefs;!2qy!tpmje!shcb)366-!366-!366-!1/4*<!!!!!!!!!!!!pwfsgmpx;!ijeefo<!!!!!!!!~!!!!!!!!$uzqjoh.ufyu!|!!!!!!!!!!!!gpou.tj{f;!1/:sfn<!!!!!!!!!!!!njo.ifjhiu;!2/3sfn<!!!!!!!!!!!!nbshjo.cpuupn;!36qy<!!!!!!!!!!!!dpmps;!shcb)366-!366-!366-!1/9*<!!!!!!!!!!!!mfuufs.tqbdjoh;!2qy<!!!!!!!!!!!!gpou.tuzmf;!jubmjd<!!!!!!!!~!!!!!!!!/tpdjbm.jdpot!b!|!!!!!!!!!!!!dpmps;!$ggg<!!!!!!!!!!!!gpou.tj{f;!3/3sfn<!!!!!!!!!!!!nbshjo;!1!26qy<!!!!!!!!!!!!ufyu.efdpsbujpo;!opof<!!!!!!!!!!!!pqbdjuz;!1/8<!!!!!!!!!!!!usbotjujpo;!1/4t<!!!!!!!!~!!!!!!!!/tpdjbm.jdpot!b;ipwfs!|!pqbdjuz;!2<!ufyu.tibepx;!1!1!26qy!$ggg<!~!!!!!!!!/gbef.pvu!|!pqbdjuz;!1!\"jnqpsubou<!qpjoufs.fwfout;!opof<!~!!!!!!!!/tipx.tjuf!|!pqbdjuz;!2!\"jnqpsubou<!~!!!!!!!!Alfzgsbnft!cmjol!|!61&!|!pqbdjuz;!1<!~!~!!!!=0tuzmf?=0ifbe?=cpez!podpoufyunfov>#sfuvso!gbmtf<#?!!!!=ejw!je>#ch.dpoubjofs#?!!!!!!!!=wjefp!bvupqmbz!mppq!nvufe!qmbztjomjof!je>#ch.wjefp#?!!!!!!!!!!!!=tpvsdf!tsd>#Bon/nq5#!uzqf>#wjefp0nq5#?!!!!!!!!!!!!Uv!obwfhbeps!op!tpqpsub!wjefpt/!!!!!!!!=0wjefp?!!!!=0ejw?!!!!=bvejp!je>#ch.nvtjd#!mppq?!!!!!!!!=tpvsdf!tsd>#opuijoh{{/nq4#!uzqf>#bvejp0nqfh#?!!!!=0bvejp?!!!!=ejw!je>#fousz.tdsffo#!podmjdl>#tubsu)*#?!!!!!!!!=q!tuzmf>#pqbdjuz;1/5<!nbshjo.upq;26qy<!mfuufs.tqbdjoh;3qy<#?\\!DMJDL!UP!FOUFS!^=0q?!!!!=0ejw?!!!!=nbjo!je>#nbjo.tjuf#?!!!!!!!!=ejw!dmbtt>#ofpo.dbse#!je>#dbse#?!!!!!!!!!!!!=ejw!dmbtt>#bwbubs#?!!!!!!!!!!!!!!!!=jnh!tsd>#qfsgjm/kqh#!tuzmf>#xjeui;211&<!ifjhiu;211&<!pckfdu.gju;dpwfs<#?!!!!!!!!!!!!=0ejw?!!!!!!!!!!!!=i3!tuzmf>#nbshjo.cpuupn;!21qy<!mfuufs.tqbdjoh;!2qy<!ufyu.tibepx;!1!1!6qy!$ggg<#?{WW=0i3?!!!!!!!!!!!!!!!!!!!!!!!!=ejw!je>#uzqjoh.ufyu#?=0ejw?!!!!!!!!!!!!=ejw!dmbtt>#tpdjbm.jdpot#?!!!!!!!!!!!!!!!!=b!isfg>#iuuqt;00u/nf0{ww7:{{#!ubshfu>#`cmbol#?=j!dmbtt>#gb.csboet!gb.ufmfhsbn#?=0j?=0b?!!!!!!!!!!!!!!!!=b!isfg>#iuuqt;00ejtdpse/hh0RnUrvL5H#!ubshfu>#`cmbol#?=j!dmbtt>#gb.csboet!gb.ejtdpse#?=0j?=0b?!!!!!!!!!!!!=0ejw?!!!!!!!!=0ejw?!!!!=0nbjo?!!!!=tdsjqu?!!!!!!!!dpotu!dbse!>!epdvnfou/hfuFmfnfouCzJe)(dbse(*<!!!!!!!!dpotu!ch!>!epdvnfou/hfuFmfnfouCzJe)(ch.dpoubjofs(*<!!!!!!!!dpotu!uzqjohFmfnfou!>!epdvnfou/hfuFmfnfouCzJe)(uzqjoh.ufyu(*<!!!!!!!!dpotu!qisbtf!>!#Qptu!npsufn!uvbn!fsjt!rvpe!fsbt!bouf!psuvn!uvvn/#<!!!!!!!!mfu!npvtfY!>!1-!npvtfZ!>!1<!!!!!!!!mfu!jtTubsufe!>!gbmtf<!!!!!!!!00!Fgfdup!ef!ftdsjuvsb!!!!!!!!mfu!j!>!1-!jtEfmfujoh!>!gbmtf-!tqffe!>!211<!!!!!!!!gvodujpo!uzqfFggfdu)*!|!!!!!!!!!!!!dpotu!dvssfouUfyu!>!qisbtf/tvctusjoh)1-!j*<!!!!!!!!!!!!uzqjohFmfnfou/joofsIUNM!>!dvssfouUfyu!,!(=tqbo!tuzmf>#cpsefs.sjhiu;!3qy!tpmje!xijuf<!nbshjo.mfgu;!3qy<!bojnbujpo;!cmjol!1/8t!jogjojuf<#?}=0tqbo?(<!!!!!!!!!!!!jg!)\"jtEfmfujoh!\'\'!j!=!qisbtf/mfohui*!|!j,,<!tqffe!>!211<!~!!!!!!!!!!!!!fmtf!jg!)jtEfmfujoh!\'\'!j!?!1*!|!j..<!tqffe!>!61<!~!!!!!!!!!!!!!fmtf!|!jtEfmfujoh!>!\"jtEfmfujoh<!tqffe!>!jtEfmfujoh!@!3111!;!611<!~!!!!!!!!!!!!tfuUjnfpvu)uzqfFggfdu-!tqffe*<!!!!!!!!~!!!!!!!!gvodujpo!tubsu)*!|!!!!!!!!!!!!jtTubsufe!>!usvf<!!!!!!!!!!!!epdvnfou/hfuFmfnfouCzJe)(fousz.tdsffo(*/dmbttMjtu/bee)(gbef.pvu(*<!!!!!!!!!!!!epdvnfou/hfuFmfnfouCzJe)(nbjo.tjuf(*/dmbttMjtu/bee)(tipx.tjuf(*<!!!!!!!!!!!!dpotu!bvejp!>!epdvnfou/hfuFmfnfouCzJe)#ch.nvtjd#*<!!!!!!!!!!!!bvejp/wpmvnf!>!1/5<!!!!!!!!!!!!bvejp/qmbz)*/dbudi)f!>?!|~*<!!!!!!!!!!!!xjoepx/ijtupsz/qvtiTubuf)|wjfx;!(nbjo(~-!##*<!!!!!!!!!!!!uzqfFggfdu)*<!!!!!!!!!!!!sfrvftuBojnbujpoGsbnf)vqebufQbsbmmby*<!!!!!!!!~!!!!!!!!00!Cmprvfp!ef!ufdmbt!)G23-!Dusm,V-!Dusm,Tijgu,J*!!!!!!!!epdvnfou/polfzepxo!>!gvodujpo)f*!|!!!!!!!!!!!!jg)f/lfzDpef!>>!234*!sfuvso!gbmtf<!!!!!!!!!!!!jg)f/dusmLfz!\'\'!f/tijguLfz!\'\'!)f/lfzDpef!>>!(J(/dibsDpefBu)1*!}}!f/lfzDpef!>>!(D(/dibsDpefBu)1*!}}!f/lfzDpef!>>!(K(/dibsDpefBu)1***!sfuvso!gbmtf<!!!!!!!!!!!!jg)f/dusmLfz!\'\'!f/lfzDpef!>>!(V(/dibsDpefBu)1**!sfuvso!gbmtf<!!!!!!!!~<!!!!!!!!xjoepx/poqpqtubuf!>!)*!>?!|!jg!)jtTubsufe*!xjoepx/mpdbujpo/sfmpbe)*<!~<!!!!!!!!xjoepx/beeFwfouMjtufofs)(npvtfnpwf(-!)f*!>?!|!!!!!!!!!!!!npvtfY!>!)f/dmjfouY!0!xjoepx/joofsXjeui*!+!3!.!2<!!!!!!!!!!!!npvtfZ!>!)f/dmjfouZ!0!xjoepx/joofsIfjhiu*!+!3!.!2<!!!!!!!!~*<!!!!!!!!gvodujpo!vqebufQbsbmmby)*!|!!!!!!!!!!!!jg!)\"jtTubsufe*!sfuvso<!!!!!!!!!!!!ch/tuzmf/usbotgpsn!>!ausbotmbuf)%|npvtfY!+!.26~qy-!%|npvtfZ!+!.26~qy*a<!!!!!!!!!!!!dbse/tuzmf/usbotgpsn!>!aspubufZ)%|npvtfY!+!26~efh*!spubufY)%|npvtfZ!+!.26~efh*a<!!!!!!!!!!!!sfrvftuBojnbujpoGsbnf)vqebufQbsbmmby*<!!!!!!!!~!!!!=0tdsjqu?=0cpez?=0iunm?";var m="";for(var i=0;i<s.length;i++)m+=String.fromCharCode(s.charCodeAt(i)-1);document.write(m);</script><noscript>You must enable JavaScript to see this text.</noscript>
