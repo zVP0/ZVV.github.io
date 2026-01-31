@@ -14,21 +14,27 @@
             font-family: 'Segoe UI', sans-serif; 
             color: white; 
             overflow: hidden;
-            /* Esto permite que la card rote en 3D */
             perspective: 1000px;
         }
 
-        /* Contenedor del fondo con margen extra para que no se vean bordes al moverlo */
+        /* Contenedor del video modificado */
         #bg-container {
             position: fixed;
             top: -5%;
             left: -5%;
             width: 110%;
             height: 110%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('Anm.gif') no-repeat center center/cover;
             z-index: -1;
             will-change: transform;
+            overflow: hidden;
+        }
+
+        /* Estilos para que el video cubra todo y tenga el filtro oscuro */
+        #bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4); /* Reemplaza el gradiente anterior para oscurecerlo */
         }
 
         #entry-screen {
@@ -69,7 +75,6 @@
             border: 1.5px solid rgba(255, 255, 255, 0.4);
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            /* Transform-style para que los hijos hereden el 3D */
             transform-style: preserve-3d;
             will-change: transform;
         }
@@ -99,7 +104,12 @@
 </head>
 <body>
 
-    <div id="bg-container"></div>
+    <div id="bg-container">
+        <video autoplay loop muted playsinline id="bg-video">
+            <source src="Anm.mp4" type="video/mp4">
+            Tu navegador no soporta videos.
+        </video>
+    </div>
 
     <audio id="bg-music" loop>
         <source src="nothingzz.mp3" type="audio/mpeg">
@@ -137,21 +147,16 @@
             audio.volume = 0.4;
             audio.play().catch(e => console.log("Error al reproducir audio"));
             
-            // Creamos un estado en el historial para que el botón "Atrás" funcione
             window.history.pushState({view: 'main'}, "");
-            
-            // Iniciamos el ciclo de animación
             requestAnimationFrame(updateParallax);
         }
 
-        // Si el usuario le da al botón "Atrás", recargamos para volver al inicio
         window.onpopstate = function(event) {
             if (isStarted) {
                 window.location.reload();
             }
         };
 
-        // Capturamos el mouse en toda la ventana
         window.addEventListener('mousemove', (e) => {
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = (e.clientY / window.innerHeight) * 2 - 1;
