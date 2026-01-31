@@ -1,1 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mi bio</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: black;
+  color: white;
+  font-family: Arial;
+  overflow: hidden;
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 70% 80%, #222, black);
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  padding: 30px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  box-shadow: 0 0 40px rgba(255,255,255,0.1);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid white;
+  margin-bottom: 15px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.bio {
+  opacity: 0.7;
+  margin: 10px 0 20px;
+}
+
+.icons a {
+  margin: 10px;
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+.icons a:hover {
+  text-shadow: 0 0 10px white;
+}
+</style>
+</head>
+
+<body>
+<div class="stars"></div>
+
+<div class="card">
+  <img src="https://i.imgur.com/6VBx3io.png" class="avatar">
+  <div class="name">maison</div>
+  <div class="bio">the internet de</div>
+  <div class="icons">
+    <a href="#">✉</a>
+    <a href="#">💬</a>
+  </div>
+</div>
+
+</body>
+</html>
 
