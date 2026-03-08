@@ -1,38 +1,142 @@
-<script>
-    const card = document.getElementById('card');
-    const bg = document.getElementById('bg-container');
-    const mainContainer = document.getElementById('main-site'); // Referencia al contenedor principal
-    let mouseX = 0, mouseY = 0;
-    let isStarted = false;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zzxxfaz.site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body, html { 
+            height: 100%; 
+            background: #000; 
+            font-family: 'Segoe UI', sans-serif; 
+            color: white; 
+            overflow: hidden;
+            /* La perspectiva crea la profundidad 3D */
+            perspective: 1500px;
+        }
 
-    // ... (tu función start() se mantiene igual)
+        #bg-container {
+            position: fixed;
+            top: -5%; left: -5%;
+            width: 110%; height: 110%;
+            z-index: -1;
+            /* Suaviza el movimiento del fondo */
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
 
-    window.addEventListener('mousemove', (e) => {
-        // Normalizamos el valor de -1 a 1
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-    });
+        #bg-video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
 
-    function updateParallax() {
-        if (!isStarted) return;
+        /* Contenedor principal que hace el efecto de movimiento */
+        #main-wrapper {
+            width: 100%; height: 100%;
+            transform-style: preserve-3d;
+            /* Suaviza la inclinación */
+            transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
 
-        // 1. Movimiento del fondo (suave)
-        const bgX = mouseX * -20; 
-        const bgY = mouseY * -20;
-        bg.style.transform = `translate(${bgX}px, ${bgY}px) scale(1.1)`;
+        #entry-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: opacity 0.8s ease;
+        }
 
-        // 2. Efecto de inclinación de TODO el sitio (lo que pediste)
-        // Esto hace que la página completa se incline ligeramente hacia el mouse
-        const tiltX = mouseY * 5;  // Inclinación vertical
-        const tiltY = mouseX * -5; // Inclinación horizontal
-        document.body.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-        document.body.style.transition = "transform 0.1s ease-out";
+        #main-site {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
 
-        // 3. La tarjeta se mueve un poco más para dar profundidad extra
-        const cardX = mouseX * 20;
-        const cardY = mouseY * 20;
-        card.style.transform = `translate(${cardX}px, ${cardY}px)`;
+        .neon-card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            width: 400px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-        requestAnimationFrame(updateParallax);
-    }
-</script>
+        .social-icons a { color: #fff; font-size: 2.2rem; margin: 0 15px; text-decoration: none; opacity: 0.7; transition: 0.3s; }
+        .social-icons a:hover { opacity: 1; text-shadow: 0 0 15px #fff; }
+
+        .fade-out { opacity: 0 !important; pointer-events: none; }
+        .show-site { opacity: 1 !important; }
+    </style>
+</head>
+<body>
+
+    <div id="bg-container">
+        <video autoplay loop muted playsinline id="bg-video">
+            <source src="Anm.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div id="main-wrapper">
+        <div id="entry-screen" onclick="start()">
+            <p style="opacity:0.4; letter-spacing:2px;">[ CLICK TO ENTER ]</p>
+        </div>
+
+        <main id="main-site">
+            <div class="neon-card" id="card">
+                <div style="width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 20px; border: 1px solid rgba(255,255,255,0.3); overflow: hidden;">
+                    <img src="perfil.jpg" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <h2 style="margin-bottom: 25px; text-shadow: 0 0 5px #fff;">zVV</h2>
+                <div class="social-icons">
+                    <a href="https://t.me/zvv69zz" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://discord.gg/QmTquK4G" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <audio id="bg-music" loop><source src="nothingzz.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        const wrapper = document.getElementById('main-wrapper');
+        const bg = document.getElementById('bg-container');
+        let isStarted = false;
+
+        function start() {
+            isStarted = true;
+            document.getElementById('entry-screen').classList.add('fade-out');
+            document.getElementById('main-site').classList.add('show-site');
+            const audio = document.getElementById("bg-music");
+            audio.volume = 0.4;
+            audio.play().catch(() => {});
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isStarted) return;
+
+            // Calculamos posición relativa (-1 a 1)
+            let mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            let mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+
+            // Movimiento envolvente (wrapper se inclina)
+            wrapper.style.transform = `rotateY(${mouseX * 10}deg) rotateX(${mouseY * -10}deg)`;
+            
+            // Fondo se mueve en sentido contrario (efecto paralaje)
+            bg.style.transform = `translate(${mouseX * -20}px, ${mouseY * -20}px) scale(1.1)`;
+        });
+    </script>
+</body>
+</html>
