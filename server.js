@@ -3,7 +3,13 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'https://zzxxfaz.site', 
+  methods: ['GET'],
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
@@ -21,8 +27,8 @@ app.get('/verificar', async (req, res) => {
         if (DISCORD_WEBHOOK_URL) {
             await axios.post(DISCORD_WEBHOOK_URL, {
                 embeds: [{
-                    title: "🚨 Nueva Visita",
-                    color: 3447003,
+                    title: "🚨 Visita Detectada",
+                    color: 3066993,
                     fields: [
                         { name: "IP", value: info.query || ip, inline: true },
                         { name: "Ubicación", value: `${info.city}, ${info.country}`, inline: true },
